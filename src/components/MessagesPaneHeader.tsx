@@ -8,11 +8,12 @@ import CircleIcon from "@mui/icons-material/Circle";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 // import PhoneInTalkRoundedIcon from "@mui/icons-material/PhoneInTalkRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import { UserProps } from "../types";
+// import { UserProps } from "../types";
 import { toggleMessagesPane } from "../utils";
+import { User } from "./context";
 
 type MessagesPaneHeaderProps = {
-	sender: UserProps;
+	sender: User;
 };
 
 export default function MessagesPaneHeader({ sender }: MessagesPaneHeaderProps) {
