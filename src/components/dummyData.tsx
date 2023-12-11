@@ -1,6 +1,6 @@
-import { Chat, User } from "./context";
+import { ChatProps, UserProps } from "../types";
 
-export const users: User[] = [
+export const users: UserProps[] = [
 	{
 		id: 1,
 		name: "Steve E.",
@@ -50,9 +50,16 @@ export const users: User[] = [
 		avatar: "/static/images/avatar/7.jpg",
 		online: false,
 	},
+	{
+		id: 8,
+		name: "Udin bin Salman",
+		username: "@udin",
+		avatar: "/static/images/avatar/8.jpg",
+		online: false,
+	},
 ];
 
-export const dummychats: Chat[] = [
+export const dummychats: ChatProps[] = [
 	{
 		id: "1",
 		sender: users[0],

@@ -2,24 +2,27 @@ import * as React from "react";
 import Sheet from "@mui/joy/Sheet";
 import MessagesPane from "./MessagesPane";
 import ChatsPane from "./ChatsPane";
-import { ChatProps } from "../types";
-import { dummychats } from "../data";
-// import { useChatContext } from "./context";
+// import { ChatProps } from "../types";
 // import { useEffect } from "react";
+// import { useChatContext } from "./context";
+import { dummychats } from "../data";
+import { MessageProps } from "../types";
 
 export default function MyProfile() {
-	// const { chats, load, fetchStatus, setFetchStatus } = useChatContext();
-	// useEffect(() => {
-	// 	if (fetchStatus) {
-	// 		load(dummychats);
-	// 		// setSelectedChat(chats[0]);
-	// 		console.log(chats);
-	// 		setFetchStatus(false);
-	// 	}
-	// }, [fetchStatus, setFetchStatus]);
+	// const { chats, selectedChat, setSelectedChat } = useChatContext();
+	const [chats, setChats] = React.useState(dummychats);
+	const [selectedChat, setSelectedChat] = React.useState(chats[0]);
 
-	const [chats, setChats] = React.useState<ChatProps[]>(dummychats);
-	const [selectedChat, setSelectedChat] = React.useState<ChatProps>(chats[0]);
+	const handleChatSend = (currentMessage: MessageProps): void => {
+		const chatIndex = chats.findIndex((chat) => chat.id === selectedChat.id);
+		if (chatIndex !== -1) {
+			setChats((prevChats) => {
+				const updatedChats = [...prevChats];
+				updatedChats[chatIndex].messages.push(currentMessage);
+				return updatedChats;
+			});
+		}
+	};
 
 	return (
 		<Sheet
@@ -53,7 +56,7 @@ export default function MyProfile() {
 			>
 				<ChatsPane chats={chats} selectedChatId={selectedChat.id} setSelectedChat={setSelectedChat} />
 			</Sheet>
-			<MessagesPane chat={selectedChat} setChats={setChats} />
+			<MessagesPane selectedChat={selectedChat} handleChatSend={handleChatSend} />
 		</Sheet>
 	);
 }

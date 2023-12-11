@@ -1,40 +1,15 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { ChatProps } from "../types";
-
-// export interface User {
-// 	id: number;
-// 	name: string;
-// 	username: string;
-// 	avatar: string;
-// 	online: boolean;
-// }
-
-// export interface Message {
-// 	id: string;
-// 	content: string;
-// 	timestamp: string;
-// 	unread?: boolean;
-// 	sender: User | "You";
-// 	attachment?: {
-// 		fileName: string;
-// 		type: string;
-// 		size: string;
-// 	};
-// }
-
-// export interface Chat {
-// 	id: string;
-// 	sender: User;
-// 	messages: Message[];
-// }
+import { dummychats } from "../data";
 
 const useChats = (initial: ChatProps[] = []) => {
-	const [chats, setChats] = useState<ChatProps[]>(initial);
-	const [fetchStatus, setFetchStatus] = useState<boolean>(true);
-	const [selectedChat, setSelectedChat] = React.useState<ChatProps>(chats[0]);
+	const [chats, setChats] = useState(initial);
+	const [fetchStatus, setFetchStatus] = useState(true);
+	const [selectedChat, setSelectedChat] = useState<ChatProps>(chats[0]);
 
 	return {
 		chats,
+		setChats,
 		fetchStatus,
 		setFetchStatus,
 		selectedChat,
@@ -43,10 +18,16 @@ const useChats = (initial: ChatProps[] = []) => {
 	};
 };
 
-const ChatContext = createContext<ReturnType<typeof useChats> | null>(null);
+export const ChatContext = createContext<ReturnType<typeof useChats> | null>(null);
 
-export const useChatContext = () => React.useContext(ChatContext)!;
+export default function ChatContextProvider({ children }: { children: React.ReactNode }) {
+	return <ChatContext.Provider value={useChats(dummychats)}>{children}</ChatContext.Provider>;
+}
 
-export function ChatProvider({ children }: { children: React.ReactNode }) {
-	return <ChatContext.Provider value={useChats([])}>{children}</ChatContext.Provider>;
+export function useChatContext() {
+	const context = useContext(ChatContext);
+	if (!context) {
+		throw new Error("useChatContext must be used within a ChatContextProvider");
+	}
+	return context;
 }
