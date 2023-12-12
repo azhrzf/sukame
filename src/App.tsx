@@ -5,17 +5,28 @@ import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import MyMessages from "./components/MyMessages";
 import ChatContextProvider from "./components/context";
+import { users } from "./data";
+import { useState } from "react";
 
 export default function JoyMessagesTemplate() {
+	const [currentUser, setCurrentUser] = useState(users[7]);
+
+	const handleChangeUser = (username: string) => {
+		const userIndex = users.findIndex((user) => user.username === username);
+		if (userIndex !== -1) {
+			setCurrentUser(users[userIndex]);
+		}
+	};
+
 	return (
 		<CssVarsProvider disableTransitionOnChange>
 			<CssBaseline />
 			<ChatContextProvider>
 				<Box sx={{ display: "flex", minHeight: "100dvh" }}>
-					<Sidebar />
+					<Sidebar user={currentUser} handleChangeUser={handleChangeUser} />
 					<Header />
 					<Box component="main" className="MainContent" sx={{ flex: 1 }}>
-						<MyMessages />
+						<MyMessages user={currentUser} />
 					</Box>
 				</Box>
 			</ChatContextProvider>

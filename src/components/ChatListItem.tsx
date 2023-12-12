@@ -66,7 +66,7 @@ export default function ChatListItem({ id, sender, messages, selectedChatId, set
 							textOverflow: "ellipsis",
 						}}
 					>
-						{messages[0].content}
+						{messages[messages.length - 1].content}
 					</Typography>
 				</ListItemButton>
 			</ListItem>

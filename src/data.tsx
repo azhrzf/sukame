@@ -50,6 +50,13 @@ export const users: UserProps[] = [
 		avatar: "/static/images/avatar/7.jpg",
 		online: false,
 	},
+	{
+		id: 8,
+		name: "Udin bin Salman",
+		username: "@udinkeren",
+		avatar: "/static/images/avatar/8.jpg",
+		online: true,
+	},
 ];
 
 export const dummychats: ChatProps[] = [
@@ -67,7 +74,7 @@ export const dummychats: ChatProps[] = [
 				id: "2",
 				content: "That sounds great, Mabel! Keep up the good work.",
 				timestamp: "Wednesday 9:10am",
-				sender: "You",
+				sender: users[7],
 			},
 			{
 				id: "3",
@@ -78,7 +85,7 @@ export const dummychats: ChatProps[] = [
 			{
 				id: "4",
 				timestamp: "Wednesday 2:00pm",
-				sender: "You",
+				sender: users[7],
 				content: "Sure, I will be waiting for it.",
 			},
 			{
@@ -115,7 +122,7 @@ export const dummychats: ChatProps[] = [
 			{
 				id: "8",
 				timestamp: "Thursday 11:41am",
-				sender: "You",
+				sender: users[7],
 				content: "Awesome! Thanks. I'll look at this today.",
 			},
 			{
@@ -133,7 +140,7 @@ export const dummychats: ChatProps[] = [
 			{
 				id: "11",
 				timestamp: "Just now",
-				sender: "You",
+				sender: users[7],
 				content: "Sure thing, I'll have a look today. They're looking great!",
 			},
 		],
@@ -152,7 +159,7 @@ export const dummychats: ChatProps[] = [
 				id: "2",
 				content: "That sounds like a great idea, Katherine! Any idea where you want to go?",
 				timestamp: "Wednesday 9:05am",
-				sender: "You",
+				sender: users[7],
 			},
 			{
 				id: "3",
@@ -164,7 +171,7 @@ export const dummychats: ChatProps[] = [
 				id: "4",
 				content: "The beach sounds perfect this time of year!",
 				timestamp: "Wednesday 9:35am",
-				sender: "You",
+				sender: users[7],
 			},
 			{
 				id: "5",
@@ -176,7 +183,7 @@ export const dummychats: ChatProps[] = [
 				id: "6",
 				content: "Make sure to take lots of pictures!",
 				timestamp: "Wednesday 10:05am",
-				sender: "You",
+				sender: users[7],
 			},
 		],
 	},
@@ -207,7 +214,7 @@ export const dummychats: ChatProps[] = [
 				id: "2",
 				content: "That sounds interesting! What kind of improvements are you considering?",
 				timestamp: "Wednesday 9:05am",
-				sender: "You",
+				sender: users[7],
 			},
 			{
 				id: "3",
@@ -219,7 +226,7 @@ export const dummychats: ChatProps[] = [
 				id: "4",
 				content: "That will definitely give your house a fresh look. Do you need help with anything?",
 				timestamp: "Wednesday 9:20am",
-				sender: "You",
+				sender: users[7],
 			},
 			{
 				id: "5",
@@ -252,7 +259,7 @@ export const dummychats: ChatProps[] = [
 				id: "1",
 				content: "Heyo",
 				timestamp: "5 mins ago",
-				sender: "You",
+				sender: users[7],
 				unread: true,
 			},
 		],

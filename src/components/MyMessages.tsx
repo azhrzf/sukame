@@ -2,16 +2,21 @@ import * as React from "react";
 import Sheet from "@mui/joy/Sheet";
 import MessagesPane from "./MessagesPane";
 import ChatsPane from "./ChatsPane";
-// import { ChatProps } from "../types";
 // import { useEffect } from "react";
 // import { useChatContext } from "./context";
 import { dummychats } from "../data";
-import { MessageProps } from "../types";
+import { MessageProps, UserProps } from "../types";
 
-export default function MyProfile() {
+type MyMessagesProps = {
+	user: UserProps;
+};
+
+export default function MyProfile({ user }: MyMessagesProps) {
 	// const { chats, selectedChat, setSelectedChat } = useChatContext();
 	const [chats, setChats] = React.useState(dummychats);
 	const [selectedChat, setSelectedChat] = React.useState(chats[0]);
+
+	const getChatsFromUser = () => {};
 
 	const handleChatSend = (currentMessage: MessageProps): void => {
 		const chatIndex = chats.findIndex((chat) => chat.id === selectedChat.id);
@@ -56,7 +61,7 @@ export default function MyProfile() {
 			>
 				<ChatsPane chats={chats} selectedChatId={selectedChat.id} setSelectedChat={setSelectedChat} />
 			</Sheet>
-			<MessagesPane selectedChat={selectedChat} handleChatSend={handleChatSend} />
+			<MessagesPane user={user} selectedChat={selectedChat} handleChatSend={handleChatSend} />
 		</Sheet>
 	);
 }

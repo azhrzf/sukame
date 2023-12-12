@@ -6,14 +6,15 @@ import AvatarWithStatus from "./AvatarWithStatus";
 import ChatBubble from "./ChatBubble";
 import MessageInput from "./MessageInput";
 import MessagesPaneHeader from "./MessagesPaneHeader";
-import { ChatProps, MessageProps } from "../types";
+import { ChatProps, MessageProps, UserProps } from "../types";
 
 type MessagesPaneProps = {
+	user: UserProps;
 	selectedChat: ChatProps;
 	handleChatSend: (currentMessage: MessageProps) => void;
 };
 
-export default function MessagesPane({ selectedChat, handleChatSend }: MessagesPaneProps) {
+export default function MessagesPane({ user, selectedChat, handleChatSend }: MessagesPaneProps) {
 	const [currentChatMessages, setCurrentChatMessages] = React.useState(selectedChat.messages);
 	const [textAreaValue, setTextAreaValue] = React.useState("");
 
@@ -29,7 +30,7 @@ export default function MessagesPane({ selectedChat, handleChatSend }: MessagesP
 		const newIdString = newId.toString();
 		const newMessage: MessageProps = {
 			id: newIdString,
-			sender: "You",
+			sender: user,
 			content: textAreaValue,
 			timestamp: "Just now",
 		};
@@ -62,13 +63,13 @@ export default function MessagesPane({ selectedChat, handleChatSend }: MessagesP
 			>
 				<Stack spacing={2} justifyContent="flex-end">
 					{currentChatMessages.map((message: MessageProps, index: number) => {
-						const isYou = message.sender === "You";
+						const isYou = message.sender === user;
 						return (
 							<Stack key={index} direction="row" spacing={2} flexDirection={isYou ? "row-reverse" : "row"}>
-								{message.sender !== "You" && (
+								{message.sender !== user && (
 									<AvatarWithStatus online={message.sender.online} src={message.sender.avatar} />
 								)}
-								<ChatBubble variant={isYou ? "sent" : "received"} {...message} />
+								<ChatBubble variant={isYou ? "sent" : "received"} {...message} user={user} />
 							</Stack>
 						);
 					})}
