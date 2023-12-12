@@ -4,18 +4,27 @@ import Box from "@mui/joy/Box";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import MyMessages from "./components/MyMessages";
-import ChatContextProvider from "./components/context";
-import { users } from "./data";
+import ChatContextProvider from "./components/Context";
+import { dummychats, users } from "./data";
 import { useState } from "react";
+import { ChatProps, UserProps } from "./types";
 
 export default function JoyMessagesTemplate() {
 	const [currentUser, setCurrentUser] = useState(users[7]);
+	const [initChats, setInitChats] = useState(dummychats);
 
 	const handleChangeUser = (username: string) => {
 		const userIndex = users.findIndex((user) => user.username === username);
 		if (userIndex !== -1) {
 			setCurrentUser(users[userIndex]);
 		}
+	};
+
+	const getChatsFromUser = (chats: ChatProps[], user: UserProps): ChatProps[] => {
+		return chats.filter((chat) => {
+			const isFromUser = chat.sender.some((sender) => sender.id === user.id);
+			return isFromUser;
+		});
 	};
 
 	return (
@@ -26,7 +35,11 @@ export default function JoyMessagesTemplate() {
 					<Sidebar user={currentUser} handleChangeUser={handleChangeUser} />
 					<Header />
 					<Box component="main" className="MainContent" sx={{ flex: 1 }}>
-						<MyMessages user={currentUser} />
+						<MyMessages
+							user={currentUser}
+							initChats={getChatsFromUser(initChats, currentUser)}
+							setInitChats={setInitChats}
+						/>
 					</Box>
 				</Box>
 			</ChatContextProvider>

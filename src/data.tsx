@@ -62,7 +62,7 @@ export const users: UserProps[] = [
 export const dummychats: ChatProps[] = [
 	{
 		id: "1",
-		sender: users[0],
+		sender: [users[0], users[7]],
 		messages: [
 			{
 				id: "1",
@@ -147,7 +147,7 @@ export const dummychats: ChatProps[] = [
 	},
 	{
 		id: "2",
-		sender: users[1],
+		sender: [users[1], users[7]],
 		messages: [
 			{
 				id: "1",
@@ -189,7 +189,7 @@ export const dummychats: ChatProps[] = [
 	},
 	{
 		id: "3",
-		sender: users[2],
+		sender: [users[2], users[7]],
 		messages: [
 			{
 				id: "1",
@@ -202,7 +202,7 @@ export const dummychats: ChatProps[] = [
 	},
 	{
 		id: "4",
-		sender: users[3],
+		sender: [users[3], users[7]],
 		messages: [
 			{
 				id: "1",
@@ -240,7 +240,7 @@ export const dummychats: ChatProps[] = [
 
 	{
 		id: "5",
-		sender: users[4],
+		sender: [users[4], users[7]],
 		messages: [
 			{
 				id: "1",
@@ -253,7 +253,7 @@ export const dummychats: ChatProps[] = [
 	},
 	{
 		id: "6",
-		sender: users[5],
+		sender: [users[5], users[7]],
 		messages: [
 			{
 				id: "1",
@@ -267,7 +267,7 @@ export const dummychats: ChatProps[] = [
 
 	{
 		id: "7",
-		sender: users[6],
+		sender: [users[6], users[7]],
 		messages: [
 			{
 				id: "1",
@@ -280,3 +280,13 @@ export const dummychats: ChatProps[] = [
 		],
 	},
 ];
+
+export const getSender = (currentUser: UserProps, senders: UserProps[]): UserProps => {
+	let send: UserProps = currentUser;
+	senders.map((sender) => {
+		if (sender.id !== currentUser.id) {
+			send = sender;
+		}
+	});
+	return send;
+};

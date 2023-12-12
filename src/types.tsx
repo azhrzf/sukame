@@ -21,6 +21,6 @@ export type MessageProps = {
 
 export type ChatProps = {
 	id: string;
-	sender: UserProps;
+	sender: UserProps[];
 	messages: MessageProps[];
 };

@@ -2,21 +2,24 @@ import * as React from "react";
 import Sheet from "@mui/joy/Sheet";
 import MessagesPane from "./MessagesPane";
 import ChatsPane from "./ChatsPane";
-// import { useEffect } from "react";
+import { useEffect } from "react";
 // import { useChatContext } from "./context";
-import { dummychats } from "../data";
-import { MessageProps, UserProps } from "../types";
+import { ChatProps, MessageProps, UserProps } from "../types";
 
 type MyMessagesProps = {
 	user: UserProps;
+	initChats: ChatProps[];
+	setInitChats: React.Dispatch<React.SetStateAction<ChatProps[]>>;
 };
 
-export default function MyProfile({ user }: MyMessagesProps) {
+export default function MyProfile({ user, initChats, setInitChats }: MyMessagesProps) {
 	// const { chats, selectedChat, setSelectedChat } = useChatContext();
-	const [chats, setChats] = React.useState(dummychats);
-	const [selectedChat, setSelectedChat] = React.useState(chats[0]);
+	const [chats, setChats] = React.useState<ChatProps[]>(initChats);
+	const [selectedChat, setSelectedChat] = React.useState<ChatProps>(chats[0]);
 
-	const getChatsFromUser = () => {};
+	useEffect(() => {
+		setChats(initChats);
+	}, [initChats, selectedChat]);
 
 	const handleChatSend = (currentMessage: MessageProps): void => {
 		const chatIndex = chats.findIndex((chat) => chat.id === selectedChat.id);
@@ -26,6 +29,7 @@ export default function MyProfile({ user }: MyMessagesProps) {
 				updatedChats[chatIndex].messages.push(currentMessage);
 				return updatedChats;
 			});
+			console.log(chats);
 		}
 	};
 
@@ -59,7 +63,7 @@ export default function MyProfile({ user }: MyMessagesProps) {
 					top: 52,
 				}}
 			>
-				<ChatsPane chats={chats} selectedChatId={selectedChat.id} setSelectedChat={setSelectedChat} />
+				<ChatsPane user={user} chats={chats} selectedChatId={selectedChat.id} setSelectedChat={setSelectedChat} />
 			</Sheet>
 			<MessagesPane user={user} selectedChat={selectedChat} handleChatSend={handleChatSend} />
 		</Sheet>

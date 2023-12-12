@@ -7,6 +7,7 @@ import ChatBubble from "./ChatBubble";
 import MessageInput from "./MessageInput";
 import MessagesPaneHeader from "./MessagesPaneHeader";
 import { ChatProps, MessageProps, UserProps } from "../types";
+import { getSender } from "../data";
 
 type MessagesPaneProps = {
 	user: UserProps;
@@ -48,7 +49,7 @@ export default function MessagesPane({ user, selectedChat, handleChatSend }: Mes
 				backgroundColor: "background.level1",
 			}}
 		>
-			<MessagesPaneHeader sender={selectedChat.sender} />
+			<MessagesPaneHeader sender={getSender(user, selectedChat.sender)} />
 
 			<Box
 				sx={{
@@ -63,10 +64,10 @@ export default function MessagesPane({ user, selectedChat, handleChatSend }: Mes
 			>
 				<Stack spacing={2} justifyContent="flex-end">
 					{currentChatMessages.map((message: MessageProps, index: number) => {
-						const isYou = message.sender === user;
+						const isYou = message.sender.id === user.id;
 						return (
 							<Stack key={index} direction="row" spacing={2} flexDirection={isYou ? "row-reverse" : "row"}>
-								{message.sender !== user && (
+								{message.sender.id !== user.id && (
 									<AvatarWithStatus online={message.sender.online} src={message.sender.avatar} />
 								)}
 								<ChatBubble variant={isYou ? "sent" : "received"} {...message} user={user} />

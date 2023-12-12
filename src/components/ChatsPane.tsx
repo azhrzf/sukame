@@ -8,16 +8,17 @@ import List from "@mui/joy/List";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import ChatListItem from "./ChatListItem";
-import { ChatProps } from "../types";
+import { ChatProps, UserProps } from "../types";
 import { toggleMessagesPane } from "../utils";
 
 type ChatsPaneProps = {
+	user: UserProps;
 	chats: ChatProps[];
 	setSelectedChat: (chat: ChatProps) => void;
 	selectedChatId: string;
 };
 
-export default function ChatsPane({ chats, setSelectedChat, selectedChatId }: ChatsPaneProps) {
+export default function ChatsPane({ user, chats, setSelectedChat, selectedChatId }: ChatsPaneProps) {
 	return (
 		<Sheet
 			sx={{
@@ -84,6 +85,7 @@ export default function ChatsPane({ chats, setSelectedChat, selectedChatId }: Ch
 					<ChatListItem
 						key={chat.id}
 						{...chat}
+						user={user}
 						setSelectedChat={setSelectedChat}
 						selectedChatId={selectedChatId}
 					/>
