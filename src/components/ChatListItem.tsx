@@ -76,7 +76,7 @@ export default function ChatListItem({
 							textOverflow: "ellipsis",
 						}}
 					>
-						{messages[messages.length - 1].content}
+						{messages.length > 0 && messages[messages.length - 1].content}
 					</Typography>
 				</ListItemButton>
 			</ListItem>

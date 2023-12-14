@@ -57,6 +57,13 @@ export const users: UserProps[] = [
 		avatar: "/static/images/avatar/8.jpg",
 		online: true,
 	},
+	{
+		id: 9,
+		name: "Marhalim",
+		username: "@marhalim",
+		avatar: "/static/images/avatar/9.jpg",
+		online: true,
+	},
 ];
 
 export const dummychats: ChatProps[] = [
@@ -289,4 +296,13 @@ export const getSender = (currentUser: UserProps, senders: UserProps[]): UserPro
 		}
 	});
 	return send;
+};
+
+export const getUserByUsername = (username: string) => {
+	const userIndex = users.findIndex((user) => user.username === username);
+	if (userIndex !== -1) {
+		return users[userIndex];
+	} else {
+		return;
+	}
 };

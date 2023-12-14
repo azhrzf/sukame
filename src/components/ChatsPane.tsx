@@ -1,96 +1,145 @@
 import Stack from "@mui/joy/Stack";
 import Sheet from "@mui/joy/Sheet";
 import Typography from "@mui/joy/Typography";
-import { Box, IconButton, Input } from "@mui/joy";
+import {
+	Box,
+	Button,
+	DialogContent,
+	DialogTitle,
+	FormControl,
+	FormLabel,
+	IconButton,
+	Input,
+	Modal,
+	ModalClose,
+	ModalDialog,
+} from "@mui/joy";
 // import { Chip } from "@mui/joy";
 import List from "@mui/joy/List";
-// import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
+import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import ChatListItem from "./ChatListItem";
 import { ChatProps, UserProps } from "../types";
 import { toggleMessagesPane } from "../utils";
+import { useState } from "react";
 
 type ChatsPaneProps = {
 	user: UserProps;
 	chats: ChatProps[];
 	setSelectedChat: (chat: ChatProps) => void;
 	selectedChatId: string;
+	handleNewChat: (targetUser: string) => void;
 };
 
-export default function ChatsPane({ user, chats, setSelectedChat, selectedChatId }: ChatsPaneProps) {
+export default function ChatsPane({ user, chats, setSelectedChat, selectedChatId, handleNewChat }: ChatsPaneProps) {
+	const [open, setOpen] = useState(false);
+	const [usernameInput, setUsernameInput] = useState("");
+
 	return (
-		<Sheet
-			sx={{
-				borderRight: "1px solid",
-				borderColor: "divider",
-				height: "calc(100dvh - var(--Header-height))",
-				overflowY: "auto",
-			}}
-		>
-			<Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between" p={2} pb={1.5}>
-				<Typography
-					fontSize={{ xs: "md", md: "lg" }}
-					component="h1"
-					fontWeight="lg"
-					// endDecorator={
-					//     <Chip
-					//         variant="soft"
-					//         color="primary"
-					//         size="md"
-					//         slotProps={{ root: { component: 'span' } }}
-					//     >
-					//         4
-					//     </Chip>
-					// }
-					sx={{ mr: "auto" }}
-				>
-					Messages
-				</Typography>
-
-				{/* <IconButton
-					variant="plain"
-					aria-label="edit"
-					color="neutral"
-					size="sm"
-					sx={{ display: { xs: "none", sm: "unset" } }}
-				>
-					<EditNoteRoundedIcon />
-				</IconButton> */}
-
-				<IconButton
-					variant="plain"
-					aria-label="edit"
-					color="neutral"
-					size="sm"
-					onClick={() => {
-						toggleMessagesPane();
-					}}
-					sx={{ display: { sm: "none" } }}
-				>
-					<CloseRoundedIcon />
-				</IconButton>
-			</Stack>
-			<Box sx={{ px: 2, pb: 1.5 }}>
-				<Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" aria-label="Search" />
-			</Box>
-			<List
+		<>
+			<Sheet
 				sx={{
-					py: 0,
-					"--ListItem-paddingY": "0.75rem",
-					"--ListItem-paddingX": "1rem",
+					borderRight: "1px solid",
+					borderColor: "divider",
+					height: "calc(100dvh - var(--Header-height))",
+					overflowY: "auto",
 				}}
 			>
-				{chats.map((chat) => (
-					<ChatListItem
-						key={chat.id}
-						{...chat}
-						user={user}
-						setSelectedChat={setSelectedChat}
-						selectedChatId={selectedChatId}
-					/>
-				))}
-			</List>
-		</Sheet>
+				<Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between" p={2} pb={1.5}>
+					<Typography
+						fontSize={{ xs: "md", md: "lg" }}
+						component="h1"
+						fontWeight="lg"
+						// endDecorator={
+						//     <Chip
+						//         variant="soft"
+						//         color="primary"
+						//         size="md"
+						//         slotProps={{ root: { component: 'span' } }}
+						//     >
+						//         4
+						//     </Chip>
+						// }
+						sx={{ mr: "auto" }}
+					>
+						Messages
+					</Typography>
+
+					<IconButton
+						variant="plain"
+						aria-label="edit"
+						color="neutral"
+						size="sm"
+						sx={{ display: { xs: "none", sm: "unset" } }}
+					>
+						<EditNoteRoundedIcon onClick={() => setOpen(true)} />
+					</IconButton>
+
+					<IconButton
+						variant="plain"
+						aria-label="edit"
+						color="neutral"
+						size="sm"
+						onClick={() => {
+							toggleMessagesPane();
+						}}
+						sx={{ display: { sm: "none" } }}
+					>
+						<CloseRoundedIcon />
+					</IconButton>
+				</Stack>
+				<Box sx={{ px: 2, pb: 1.5 }}>
+					<Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" aria-label="Search" />
+				</Box>
+				<List
+					sx={{
+						py: 0,
+						"--ListItem-paddingY": "0.75rem",
+						"--ListItem-paddingX": "1rem",
+					}}
+				>
+					{chats.map((chat) => (
+						<ChatListItem
+							key={chat.id}
+							{...chat}
+							user={user}
+							setSelectedChat={setSelectedChat}
+							selectedChatId={selectedChatId}
+						/>
+					))}
+				</List>
+			</Sheet>
+			<Modal open={open} onClose={() => setOpen(false)}>
+				<ModalDialog>
+					<ModalClose variant="plain" sx={{ m: 1 }} />
+					<DialogTitle>New Messages</DialogTitle>
+					<DialogContent>Fill in the target username</DialogContent>
+					<form
+						onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+							event.preventDefault();
+							handleNewChat(usernameInput);
+							setOpen(false);
+							setUsernameInput("");
+						}}
+					>
+						<Stack spacing={2}>
+							<FormControl>
+								<FormLabel>Username</FormLabel>
+								<Input
+									value={usernameInput}
+									autoFocus
+									required
+									onChange={(e) => {
+										setUsernameInput(e.target.value);
+									}}
+								/>
+							</FormControl>
+							<Button type="submit">Submit</Button>
+						</Stack>
+					</form>
+				</ModalDialog>
+			</Modal>
+		</>
 	);
 }

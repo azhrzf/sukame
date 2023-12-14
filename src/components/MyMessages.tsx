@@ -5,6 +5,7 @@ import ChatsPane from "./ChatsPane";
 import { useEffect } from "react";
 // import { useChatContext } from "./context";
 import { ChatProps, MessageProps, UserProps } from "../types";
+import { getUserByUsername } from "../data";
 
 type MyMessagesProps = {
 	user: UserProps;
@@ -19,9 +20,11 @@ export default function MyProfile({ user, initChats, setInitChats }: MyMessagesP
 
 	useEffect(() => {
 		setChats(initChats);
-	}, [initChats, selectedChat]);
+		console.log(chats);
+	}, [chats, initChats, selectedChat]);
 
 	const handleChatSend = (currentMessage: MessageProps): void => {
+		console.log(chats);
 		const chatIndex = chats.findIndex((chat) => chat.id === selectedChat.id);
 		if (chatIndex !== -1) {
 			setChats((prevChats) => {
@@ -29,7 +32,25 @@ export default function MyProfile({ user, initChats, setInitChats }: MyMessagesP
 				updatedChats[chatIndex].messages.push(currentMessage);
 				return updatedChats;
 			});
-			console.log(chats);
+			//console.log(chats);
+		}
+	};
+
+	const handleNewChat = (targetUser: string) => {
+		let target = getUserByUsername(targetUser);
+		if (target !== undefined) {
+			const newId = initChats.length + 1;
+			const newIdString = newId.toString();
+			const chat: ChatProps = {
+				id: newIdString,
+				sender: [target, user],
+				messages: [],
+			};
+			setInitChats((prevChats) => {
+				return [...prevChats, chat];
+			});
+			// let newChatIndex = chats.findIndex((c) => c.id === newIdString);
+			// setSelectedChat(chats[8]);
 		}
 	};
 
@@ -63,7 +84,13 @@ export default function MyProfile({ user, initChats, setInitChats }: MyMessagesP
 					top: 52,
 				}}
 			>
-				<ChatsPane user={user} chats={chats} selectedChatId={selectedChat.id} setSelectedChat={setSelectedChat} />
+				<ChatsPane
+					user={user}
+					chats={chats}
+					selectedChatId={selectedChat.id}
+					setSelectedChat={setSelectedChat}
+					handleNewChat={handleNewChat}
+				/>
 			</Sheet>
 			<MessagesPane user={user} selectedChat={selectedChat} handleChatSend={handleChatSend} />
 		</Sheet>
