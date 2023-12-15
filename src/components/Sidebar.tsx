@@ -3,7 +3,7 @@ import { useState } from "react";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import Avatar from "@mui/joy/Avatar";
 import Box from "@mui/joy/Box";
-// import Button from "@mui/joy/Button";
+import Button from "@mui/joy/Button";
 // import Card from "@mui/joy/Card";
 // import Chip from "@mui/joy/Chip";
 import Divider from "@mui/joy/Divider";
@@ -335,11 +335,15 @@ export default function Sidebar() {
               fontWeight="lg"
               mb={1}
             >
-              This is the modal title
+              Logout
             </Typography>
             <Typography id="modal-desc" textColor="text.tertiary">
-              Make sure to use <code>aria-labelledby</code> on the modal dialog
-              with an optional <code>aria-describedby</code> attribute.
+              <Button sx={{marginRight: '10px'}} size="md" variant="outlined" color="primary">
+                Primary
+              </Button>
+              <Button size="md" variant="outlined" color="danger">
+                Danger
+              </Button>
             </Typography>
           </Sheet>
         </Modal>
