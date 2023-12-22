@@ -339,7 +339,9 @@ export default function Sidebar({ user, handleChangeUser }: SidebarProps) {
 										}}
 									/>
 								</FormControl>
-								<Button type="submit">Submit</Button>
+								<Button color="success" variant="solid" type="submit">
+									Submit
+								</Button>
 							</Stack>
 						</form>
 					</ModalDialog>

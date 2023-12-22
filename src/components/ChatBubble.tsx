@@ -45,7 +45,7 @@ export default function ChatBubble({
 					}}
 				>
 					<Stack direction="row" spacing={1.5} alignItems="center">
-						<Avatar color="primary" size="lg">
+						<Avatar color="success" size="lg">
 							<InsertDriveFileRoundedIcon />
 						</Avatar>
 						<div>
@@ -68,7 +68,7 @@ export default function ChatBubble({
 							borderRadius: "lg",
 							borderTopRightRadius: isSent ? 0 : "lg",
 							borderTopLeftRadius: isSent ? "lg" : 0,
-							backgroundColor: isSent ? "var(--joy-palette-primary-solidBg)" : "background.body",
+							backgroundColor: isSent ? "var(--joy-palette-success-500, #1F7A1F)" : "background.body",
 						}}
 					>
 						<Typography

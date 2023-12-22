@@ -5,13 +5,13 @@ import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import MyMessages from "./components/MyMessages";
 import ChatContextProvider from "./components/Context";
-import { dummychats, users } from "./data";
+import { getDummyChats, users } from "./data";
 import { useState } from "react";
 import { ChatProps, UserProps } from "./types";
 
 export default function JoyMessagesTemplate() {
 	const [currentUser, setCurrentUser] = useState(users[7]);
-	const [initChats, setInitChats] = useState(dummychats);
+	const [initChats, setInitChats] = useState(getDummyChats());
 
 	const handleChangeUser = (username: string) => {
 		const userIndex = users.findIndex((user) => user.username === username);

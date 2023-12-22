@@ -306,3 +306,7 @@ export const getUserByUsername = (username: string) => {
 		return;
 	}
 };
+
+export const getDummyChats = (): ChatProps[] => {
+	return dummychats;
+};
