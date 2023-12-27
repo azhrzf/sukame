@@ -6,33 +6,38 @@ import AvatarWithStatus from "./AvatarWithStatus";
 import ChatBubble from "./ChatBubble";
 import MessageInput from "./MessageInput";
 import MessagesPaneHeader from "./MessagesPaneHeader";
-import { ChatProps, MessageProps } from "../types";
+import { ChatProps, MessageProps, UserProps } from "../types";
+import { getSender } from "../data";
 
 type MessagesPaneProps = {
-	chat: ChatProps;
-	setChats: (chats: ChatProps[]) => void;
+	user: UserProps;
+	selectedChat: ChatProps;
+	handleChatSend: (currentMessage: MessageProps) => void;
 };
 
-export default function MessagesPane({ chat, setChats }: MessagesPaneProps) {
-	const [chatMessages, setChatMessages] = React.useState(chat.messages);
+export default function MessagesPane({ user, selectedChat, handleChatSend }: MessagesPaneProps) {
+	const [currentChatMessages, setCurrentChatMessages] = React.useState(selectedChat.messages);
 	const [textAreaValue, setTextAreaValue] = React.useState("");
 
 	React.useEffect(() => {
-		setChatMessages(chat.messages);
-	}, [chat.messages]);
+		setCurrentChatMessages(selectedChat.messages);
+	}, [selectedChat.messages]);
 
 	const onEnterHandler = () => {
-		const newId = chatMessages.length + 1;
+		if (!textAreaValue) {
+			return;
+		}
+		const newId = currentChatMessages.length + 1;
 		const newIdString = newId.toString();
-		setChatMessages([
-			...chatMessages,
-			{
-				id: newIdString,
-				sender: "You",
-				content: textAreaValue,
-				timestamp: "Just now",
-			},
-		]);
+		const newMessage: MessageProps = {
+			id: newIdString,
+			sender: user,
+			content: textAreaValue,
+			timestamp: "Just now",
+		};
+		setTextAreaValue("");
+		setCurrentChatMessages([...currentChatMessages, newMessage]);
+		handleChatSend(newMessage);
 	};
 
 	return (
@@ -44,7 +49,7 @@ export default function MessagesPane({ chat, setChats }: MessagesPaneProps) {
 				backgroundColor: "background.level1",
 			}}
 		>
-			<MessagesPaneHeader sender={chat.sender} />
+			<MessagesPaneHeader sender={getSender(user, selectedChat.sender)} />
 
 			<Box
 				sx={{
@@ -58,14 +63,14 @@ export default function MessagesPane({ chat, setChats }: MessagesPaneProps) {
 				}}
 			>
 				<Stack spacing={2} justifyContent="flex-end">
-					{chatMessages.map((message: MessageProps, index: number) => {
-						const isYou = message.sender === "You";
+					{currentChatMessages.map((message: MessageProps, index: number) => {
+						const isYou = message.sender.id === user.id;
 						return (
 							<Stack key={index} direction="row" spacing={2} flexDirection={isYou ? "row-reverse" : "row"}>
-								{message.sender !== "You" && (
+								{message.sender.id !== user.id && (
 									<AvatarWithStatus online={message.sender.online} src={message.sender.avatar} />
 								)}
-								<ChatBubble variant={isYou ? "sent" : "received"} {...message} />
+								<ChatBubble variant={isYou ? "sent" : "received"} {...message} user={user} />
 							</Stack>
 						);
 					})}

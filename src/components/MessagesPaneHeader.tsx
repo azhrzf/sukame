@@ -10,10 +10,10 @@ import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRound
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 // import { UserProps } from "../types";
 import { toggleMessagesPane } from "../utils";
-import { User } from "./context";
+import { UserProps } from "../types";
 
 type MessagesPaneHeaderProps = {
-	sender: User;
+	sender: UserProps;
 };
 
 export default function MessagesPaneHeader({ sender }: MessagesPaneHeaderProps) {

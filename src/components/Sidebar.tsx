@@ -64,9 +64,25 @@ import { closeSidebar } from "../utils";
 // }
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
+import { UserProps } from "../types";
+import {
+  Button,
+  DialogTitle,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalDialog,
+  Stack,
+} from "@mui/joy";
 
-export default function Sidebar() {
+type SidebarProps = {
+  user: UserProps;
+  handleChangeUser: (username: string) => void;
+};
+
+export default function Sidebar({ user, handleChangeUser }: SidebarProps) {
   const [open, setOpen] = useState(false);
+  const [usernameInput, setUsernameInput] = useState("");
   return (
     <Sheet
       className="Sidebar"
@@ -335,15 +351,11 @@ export default function Sidebar() {
               fontWeight="lg"
               mb={1}
             >
-              Logout
+              This is the modal title
             </Typography>
             <Typography id="modal-desc" textColor="text.tertiary">
-              <Button sx={{marginRight: '10px'}} size="md" variant="outlined" color="primary">
-                Primary
-              </Button>
-              <Button size="md" variant="outlined" color="danger">
-                Danger
-              </Button>
+              Make sure to use <code>aria-labelledby</code> on the modal dialog
+              with an optional <code>aria-describedby</code> attribute.
             </Typography>
           </Sheet>
         </Modal>
