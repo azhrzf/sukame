@@ -2,24 +2,57 @@ import * as React from "react";
 import Sheet from "@mui/joy/Sheet";
 import MessagesPane from "./MessagesPane";
 import ChatsPane from "./ChatsPane";
-import { ChatProps } from "../types";
-import { dummychats } from "../data";
+import { useEffect } from "react";
 // import { useChatContext } from "./context";
-// import { useEffect } from "react";
+import { ChatProps, MessageProps, UserProps } from "../types";
+import { getUserByUsername } from "../data";
 
-export default function MyProfile() {
-	// const { chats, load, fetchStatus, setFetchStatus } = useChatContext();
-	// useEffect(() => {
-	// 	if (fetchStatus) {
-	// 		load(dummychats);
-	// 		// setSelectedChat(chats[0]);
-	// 		console.log(chats);
-	// 		setFetchStatus(false);
-	// 	}
-	// }, [fetchStatus, setFetchStatus]);
+type MyMessagesProps = {
+	user: UserProps;
+	initChats: ChatProps[];
+	setInitChats: React.Dispatch<React.SetStateAction<ChatProps[]>>;
+};
 
-	const [chats, setChats] = React.useState<ChatProps[]>(dummychats);
+export default function MyProfile({ user, initChats, setInitChats }: MyMessagesProps) {
+	// const { chats, selectedChat, setSelectedChat } = useChatContext();
+	const [chats, setChats] = React.useState<ChatProps[]>(initChats);
 	const [selectedChat, setSelectedChat] = React.useState<ChatProps>(chats[0]);
+
+	useEffect(() => {
+		setChats(initChats);
+		console.log(chats);
+	}, [chats, initChats, selectedChat]);
+
+	const handleChatSend = (currentMessage: MessageProps): void => {
+		console.log(chats);
+		const chatIndex = chats.findIndex((chat) => chat.id === selectedChat.id);
+		if (chatIndex !== -1) {
+			setChats((prevChats) => {
+				const updatedChats = [...prevChats];
+				updatedChats[chatIndex].messages.push(currentMessage);
+				return updatedChats;
+			});
+			//console.log(chats);
+		}
+	};
+
+	const handleNewChat = (targetUser: string) => {
+		let target = getUserByUsername(targetUser);
+		if (target !== undefined) {
+			const newId = initChats.length + 1;
+			const newIdString = newId.toString();
+			const chat: ChatProps = {
+				id: newIdString,
+				sender: [target, user],
+				messages: [],
+			};
+			setInitChats((prevChats) => {
+				return [...prevChats, chat];
+			});
+			// let newChatIndex = chats.findIndex((c) => c.id === newIdString);
+			// setSelectedChat(chats[8]);
+		}
+	};
 
 	return (
 		<Sheet
@@ -51,9 +84,15 @@ export default function MyProfile() {
 					top: 52,
 				}}
 			>
-				<ChatsPane chats={chats} selectedChatId={selectedChat.id} setSelectedChat={setSelectedChat} />
+				<ChatsPane
+					user={user}
+					chats={chats}
+					selectedChatId={selectedChat.id}
+					setSelectedChat={setSelectedChat}
+					handleNewChat={handleNewChat}
+				/>
 			</Sheet>
-			<MessagesPane chat={selectedChat} setChats={setChats} />
+			<MessagesPane user={user} selectedChat={selectedChat} handleChatSend={handleChatSend} />
 		</Sheet>
 	);
 }
