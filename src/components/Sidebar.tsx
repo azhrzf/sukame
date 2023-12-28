@@ -1,4 +1,5 @@
 // import * as React from "react";
+import axios from "axios";
 import { useState } from "react";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import Avatar from "@mui/joy/Avatar";
@@ -66,13 +67,12 @@ import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import { UserProps } from "../types";
 import {
-  Button,
-  DialogTitle,
-  FormControl,
-  FormLabel,
+  // DialogTitle,
+  // FormControl,
+  // FormLabel,
   Input,
-  ModalDialog,
-  Stack,
+  // ModalDialog,
+  // Stack,
 } from "@mui/joy";
 
 type SidebarProps = {
@@ -83,6 +83,36 @@ type SidebarProps = {
 export default function Sidebar({ user, handleChangeUser }: SidebarProps) {
   const [open, setOpen] = useState(false);
   const [usernameInput, setUsernameInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if (name === "username") {
+      setUsernameInput(value);
+    } else if (name === "password") {
+      setPasswordInput(value);
+    }
+  };
+
+  const handleLogin = () => {
+    handleChangeUser(usernameInput);
+    setOpen(false);
+    const postData = async () => {
+      try {
+        const response = await axios.post("https://api.example.com/posts", {
+          username: usernameInput,
+          password: passwordInput,
+        });
+
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    postData();
+  };
+
   return (
     <Sheet
       className="Sidebar"
@@ -351,11 +381,28 @@ export default function Sidebar({ user, handleChangeUser }: SidebarProps) {
               fontWeight="lg"
               mb={1}
             >
-              This is the modal title
+              Login
             </Typography>
             <Typography id="modal-desc" textColor="text.tertiary">
-              Make sure to use <code>aria-labelledby</code> on the modal dialog
-              with an optional <code>aria-describedby</code> attribute.
+              <Input
+                placeholder="Username"
+                variant="outlined"
+                value={usernameInput}
+                name="username"
+                onChange={handleInputChange}
+              />
+              <Input
+                placeholder="Password"
+                variant="outlined"
+                sx={{ marginTop: "10px" }}
+                value={passwordInput}
+                name="password"
+                type="password"
+                onChange={handleInputChange}
+              />
+              <Button variant="outlined" sx={{ marginTop: "10px" }}>
+                Login
+              </Button>
             </Typography>
           </Sheet>
         </Modal>
