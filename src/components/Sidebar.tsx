@@ -1,5 +1,5 @@
 // import * as React from "react";
-import axios from "axios";
+// import axios from "axios";
 import { useState } from "react";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import Avatar from "@mui/joy/Avatar";
@@ -79,8 +79,13 @@ type SidebarProps = {
   user: UserProps;
   handleChangeUser: (username: string) => void;
 };
-
+// export default function Sidebar({ user, handleChangeUser }: SidebarProps) {
 export default function Sidebar({ user, handleChangeUser }: SidebarProps) {
+  const check = {
+    user,
+    handleChangeUser,
+  };
+  console.log(check);
   const [open, setOpen] = useState(false);
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -94,24 +99,24 @@ export default function Sidebar({ user, handleChangeUser }: SidebarProps) {
     }
   };
 
-  const handleLogin = () => {
-    handleChangeUser(usernameInput);
-    setOpen(false);
-    const postData = async () => {
-      try {
-        const response = await axios.post("https://api.example.com/posts", {
-          username: usernameInput,
-          password: passwordInput,
-        });
+  // const handleLogin = () => {
+  //   handleChangeUser(usernameInput);
+  //   setOpen(false);
+  //   const postData = async () => {
+  //     try {
+  //       const response = await axios.post("https://api.example.com/posts", {
+  //         username: usernameInput,
+  //         password: passwordInput,
+  //       });
 
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  //       console.log(response.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    postData();
-  };
+  //   postData();
+  // };
 
   return (
     <Sheet

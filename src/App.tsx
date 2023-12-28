@@ -6,12 +6,15 @@ import Header from "./components/Header";
 import MyMessages from "./components/MyMessages";
 import ChatContextProvider from "./components/Context";
 import { getDummyChats, users } from "./data";
-import { useState, useEffect } from "react";
+import {
+	useState,
+	// useEffect
+} from "react";
 import { ChatProps, UserProps } from "./types";
-import axios from "axios";
+// import axios from "axios";
 
 export default function JoyMessagesTemplate() {
-  const [getChats, setGetChats] = useState<ChatProps[]>([]);
+//   const [getChats, setGetChats] = useState<ChatProps[]>([]);
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
