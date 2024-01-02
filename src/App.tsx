@@ -1,32 +1,32 @@
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
-import MyMessages from "./components/MyMessages";
+import Sidebar from "./components/Inner/Sidebar";
+import Header from "./components/Inner/Header";
+import MyMessages from "./components/Inner/Chat";
 import ChatContextProvider from "./components/Context";
 import { getDummyChats, users } from "./data";
 import {
-	useState,
-	// useEffect
+  useState,
+  // useEffect
 } from "react";
 import { ChatProps, UserProps } from "./types";
 // import axios from "axios";
 
 export default function JoyMessagesTemplate() {
-//   const [getChats, setGetChats] = useState<ChatProps[]>([]);
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await axios.get("https://example.com/chats");
-//         setGetChats(response.data);
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     };
+  //   const [getChats, setGetChats] = useState<ChatProps[]>([]);
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       try {
+  //         const response = await axios.get("https://example.com/chats");
+  //         setGetChats(response.data);
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     };
 
-//     fetchData();
-//   }, []);
+  //     fetchData();
+  //   }, []);
 
   const [currentUser, setCurrentUser] = useState(users[7]);
   const [initChats, setInitChats] = useState(getDummyChats());

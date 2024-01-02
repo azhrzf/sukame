@@ -19,15 +19,17 @@ const useChats = (initial: ChatProps[] = []) => {
   };
 };
 
-export const ChatContext = createContext<ReturnType<typeof useChats> | null>(
-  null
-);
+const ChatContext = createContext<ReturnType<typeof useChats> | null>(null);
 
-export default function ChatContextProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function useChatContext() {
+  const context = useContext(ChatContext);
+  if (!context) {
+    throw new Error("useChatContext must be used within a ChatContextProvider");
+  }
+  return context;
+}
+
+function ChatContextProvider({ children }: { children: React.ReactNode }) {
   return (
     <ChatContext.Provider value={useChats(dummychats)}>
       {children}
@@ -35,13 +37,8 @@ export default function ChatContextProvider({
   );
 }
 
-export function useChatContext() {
-  const context = useContext(ChatContext);
-  if (!context) {
-    throw new Error("useChatContext must be used within a ChatContextProvider");
-  }
-  return context;
-}
+export default ChatContextProvider;
+export { ChatContext, useChatContext };
 
 // let baseURL = "";
 
