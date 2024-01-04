@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { ChatProps } from "../types";
-import { dummychats } from "../data";
+import { getDummyChats } from "../data";
 // import axios from "axios";
 
 const useChats = (initial: ChatProps[] = []) => {
@@ -31,7 +31,7 @@ function useChatContext() {
 
 function ChatContextProvider({ children }: { children: React.ReactNode }) {
   return (
-    <ChatContext.Provider value={useChats(dummychats)}>
+    <ChatContext.Provider value={useChats(getDummyChats())}>
       {children}
     </ChatContext.Provider>
   );

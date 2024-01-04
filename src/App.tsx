@@ -1,69 +1,52 @@
-import { CssVarsProvider } from "@mui/joy/styles";
-import CssBaseline from "@mui/joy/CssBaseline";
-import Box from "@mui/joy/Box";
-import Sidebar from "./components/Inner/Sidebar";
-import Header from "./components/Inner/Header";
-import MyMessages from "./components/Inner/Chat";
-import ChatContextProvider from "./components/Context";
-import { getDummyChats, users } from "./data";
-import {
-  useState,
-  // useEffect
-} from "react";
-import { ChatProps, UserProps } from "./types";
-// import axios from "axios";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import JoySignInSideTemplate from "./components/Login";
+import JoySignInSideTemplateRegister from "./components/Register";
+import JoyMessagesTemplate from "./components/Inner";
+import Cookies from "js-cookie";
+import { createContext, useState, useContext } from "react";
 
-export default function JoyMessagesTemplate() {
-  //   const [getChats, setGetChats] = useState<ChatProps[]>([]);
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       try {
-  //         const response = await axios.get("https://example.com/chats");
-  //         setGetChats(response.data);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
+const AuthContext = createContext<{
+  backend: string | undefined;
+  token: string | undefined;
+  changeAuth: (backend: string, token: string) => void;
+}>({
+  backend: undefined,
+  token: undefined,
+  changeAuth: () => {},
+});
 
-  //     fetchData();
-  //   }, []);
+const Home = () => {
+  const { backend, token } = useContext(AuthContext);
+  if (backend && token) {
+    return <JoyMessagesTemplate />;
+  } else {
+    return <JoySignInSideTemplate />;
+  }
+};
 
-  const [currentUser, setCurrentUser] = useState(users[7]);
-  const [initChats, setInitChats] = useState(getDummyChats());
+function App() {
+  const [backend, setBackend] = useState<string | undefined>(
+    Cookies.get("backend")
+  );
+  const [token, setToken] = useState<string | undefined>(Cookies.get("token"));
 
-  const handleChangeUser = (username: string) => {
-    const userIndex = users.findIndex((user) => user.username === username);
-    if (userIndex !== -1) {
-      setCurrentUser(users[userIndex]);
-    }
-  };
-
-  const getChatsFromUser = (
-    chats: ChatProps[],
-    user: UserProps
-  ): ChatProps[] => {
-    return chats.filter((chat) => {
-      const isFromUser = chat.sender.some((sender) => sender.id === user.id);
-      return isFromUser;
-    });
+  const changeAuth = (newBackend: string, newToken: string) => {
+    setBackend(newBackend);
+    setToken(newToken);
   };
 
   return (
-    <CssVarsProvider disableTransitionOnChange>
-      <CssBaseline />
-      <ChatContextProvider>
-        <Box sx={{ display: "flex", minHeight: "100dvh" }}>
-          <Sidebar user={currentUser} handleChangeUser={handleChangeUser} />
-          <Header />
-          <Box component="main" className="MainContent" sx={{ flex: 1 }}>
-            <MyMessages
-              user={currentUser}
-              initChats={getChatsFromUser(initChats, currentUser)}
-              setInitChats={setInitChats}
-            />
-          </Box>
-        </Box>
-      </ChatContextProvider>
-    </CssVarsProvider>
+    <HashRouter>
+      <AuthContext.Provider value={{ backend, token, changeAuth }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<JoySignInSideTemplate />} />
+          <Route path="/register" element={<JoySignInSideTemplateRegister />} />
+        </Routes>
+      </AuthContext.Provider>
+    </HashRouter>
   );
 }
+
+export { AuthContext };
+export default App;

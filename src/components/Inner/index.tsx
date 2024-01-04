@@ -1,6 +1,16 @@
-import { ChatProps, UserProps } from "./types";
+import { CssVarsProvider } from "@mui/joy/styles";
+import CssBaseline from "@mui/joy/CssBaseline";
+import Box from "@mui/joy/Box";
+import Sidebar from "./Sidebar";
+import Header from "./Header";
+import MyMessages from "./Chat";
+import ChatContextProvider from "../Context";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { ChatProps, UserProps } from "../../types";
 
-export const users: UserProps[] = [
+const users: UserProps[] = [
   {
     id: 1,
     name: "Steve E.",
@@ -66,7 +76,7 @@ export const users: UserProps[] = [
   },
 ];
 
-export const dummychats: ChatProps[] = [
+const dummychats: ChatProps[] = [
   {
     id: "1",
     sender: [users[0], users[7]],
@@ -294,28 +304,104 @@ export const dummychats: ChatProps[] = [
   },
 ];
 
-export const getSender = (
-  currentUser: UserProps,
-  senders: UserProps[]
-): UserProps => {
-  let send: UserProps = currentUser;
-  senders.map((sender) => {
-    if (sender.id !== currentUser.id) {
-      send = sender;
-    }
-  });
-  return send;
-};
+function JoyMessagesTemplate() {
+  //   const [getChats, setGetChats] = useState<ChatProps[]>([]);
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       try {
+  //         const response = await axios.get("https://example.com/chats");
+  //         setGetChats(response.data);
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     };
 
-export const getUserByUsername = (username: string) => {
-  const userIndex = users.findIndex((user) => user.username === username);
-  if (userIndex !== -1) {
-    return users[userIndex];
-  } else {
-    return;
+  //     fetchData();
+  //   }, []);
+
+  interface Conversation {
+    conversation_id: string;
+    sender: string;
+    receiver: string;
+    message: string;
+    dateTime: string;
   }
-};
 
-export const getDummyChats = (): ChatProps[] => {
-  return dummychats;
-};
+  const backend = Cookies.get("backend");
+  const token = Cookies.get("token");
+
+  const [userds, setUsers] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${backend}user/conversations`, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
+        if (response.data.status_code === 200) {
+          const { id, conversations } = response.data.data;
+          const usedUsers = conversations.filter(
+            (conversation: Conversation) => {
+              return conversation.sender === id || conversation.receiver === id;
+            }
+          );
+          const sendersAndReceivers = Array.from(
+            new Set(
+              usedUsers.flatMap((conversation: Conversation) => [
+                conversation.sender,
+                conversation.receiver,
+              ])
+            )
+          );
+          console.log(sendersAndReceivers);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [backend, token]);
+
+  const [currentUser, setCurrentUser] = useState(users[7]);
+  const [initChats, setInitChats] = useState(dummychats);
+
+  const handleChangeUser = (username: string) => {
+    const userIndex = users.findIndex((user) => user.username === username);
+    if (userIndex !== -1) {
+      setCurrentUser(users[userIndex]);
+    }
+  };
+
+  const getChatsFromUser = (
+    chats: ChatProps[],
+    user: UserProps
+  ): ChatProps[] => {
+    return chats.filter((chat) => {
+      const isFromUser = chat.sender.some((sender) => sender.id === user.id);
+      return isFromUser;
+    });
+  };
+
+  return (
+    <CssVarsProvider disableTransitionOnChange>
+      <CssBaseline />
+      <ChatContextProvider>
+        <Box sx={{ display: "flex", minHeight: "100dvh" }}>
+          <Sidebar user={currentUser} handleChangeUser={handleChangeUser} />
+          <Header />
+          <Box component="main" className="MainContent" sx={{ flex: 1 }}>
+            <MyMessages
+              user={currentUser}
+              initChats={getChatsFromUser(initChats, currentUser)}
+              setInitChats={setInitChats}
+            />
+          </Box>
+        </Box>
+      </ChatContextProvider>
+    </CssVarsProvider>
+  );
+}
+
+export default JoyMessagesTemplate;
