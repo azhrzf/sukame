@@ -34,6 +34,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 import ColorSchemeToggle from "../ColorSchemeToggle";
 import { closeSidebar } from "../../utils";
+import Cookies from "js-cookie";
 
 // function Toggler({
 // 	defaultExpanded = false,
@@ -81,6 +82,8 @@ type SidebarProps = {
 };
 // export default function Sidebar({ user, handleChangeUser }: SidebarProps) {
 export default function Sidebar({ user, handleChangeUser }: SidebarProps) {
+  const username = Cookies.get("username");
+  const id = Cookies.get("id");
   const check = {
     user,
     handleChangeUser,
@@ -348,11 +351,11 @@ export default function Sidebar({ user, handleChangeUser }: SidebarProps) {
         <Avatar
           variant="outlined"
           size="sm"
-          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+          src="https://static.republika.co.id/uploads/images/inpicture_slide/universitas-islam-negeri-uin-sunan-kalijaga-_180215142748-934.jpg"
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">Siriwat K.</Typography>
-          <Typography level="body-xs">siriwatk@test.com</Typography>
+          <Typography level="title-sm">{username}</Typography>
+          <Typography level="body-xs">{id}</Typography>
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">
           <LogoutRoundedIcon onClick={() => setOpen(true)} />

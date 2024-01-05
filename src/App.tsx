@@ -8,10 +8,14 @@ import { createContext, useState, useContext } from "react";
 const AuthContext = createContext<{
   backend: string | undefined;
   token: string | undefined;
+  refresh: boolean;
+  refresher: () => void; // add this line
   changeAuth: (backend: string, token: string) => void;
 }>({
   backend: undefined,
   token: undefined,
+  refresh: false,
+  refresher: () => {},
   changeAuth: () => {},
 });
 
@@ -29,15 +33,23 @@ function App() {
     Cookies.get("backend")
   );
   const [token, setToken] = useState<string | undefined>(Cookies.get("token"));
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   const changeAuth = (newBackend: string, newToken: string) => {
     setBackend(newBackend);
     setToken(newToken);
   };
 
+  const refresher = () => {
+    console.log("refreshing")
+    setRefresh(prevState => !prevState);
+  };
+
   return (
     <HashRouter>
-      <AuthContext.Provider value={{ backend, token, changeAuth }}>
+      <AuthContext.Provider
+        value={{ backend, token, refresh, refresher, changeAuth }}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<JoySignInSideTemplate />} />

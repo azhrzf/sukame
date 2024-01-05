@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { ChatProps } from "../types";
 import { getDummyChats } from "../data";
 // import axios from "axios";
@@ -22,7 +22,9 @@ const useChats = (initial: ChatProps[] = []) => {
 const ChatContext = createContext<ReturnType<typeof useChats> | null>(null);
 
 function useChatContext() {
+  const { refresh } = useContext(AuthContext);
   const context = useContext(ChatContext);
+  useEffect(() => {}, [refresh]);
   if (!context) {
     throw new Error("useChatContext must be used within a ChatContextProvider");
   }

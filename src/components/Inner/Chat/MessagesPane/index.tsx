@@ -96,6 +96,7 @@ function MessagesPane({
       </Box>
 
       <MessageInput
+        selectedChat={selectedChat}
         textAreaValue={textAreaValue}
         setTextAreaValue={setTextAreaValue}
         onSubmit={onEnterHandler}

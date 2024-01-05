@@ -4,31 +4,65 @@ import Button from "@mui/joy/Button";
 import FormControl from "@mui/joy/FormControl";
 import Textarea from "@mui/joy/Textarea";
 import { IconButton, Stack } from "@mui/joy";
-
+import Cookies from "js-cookie";
+import { AuthContext } from "../../../../App";
 import FormatBoldRoundedIcon from "@mui/icons-material/FormatBoldRounded";
 import FormatItalicRoundedIcon from "@mui/icons-material/FormatItalicRounded";
 import StrikethroughSRoundedIcon from "@mui/icons-material/StrikethroughSRounded";
 import FormatListBulletedRoundedIcon from "@mui/icons-material/FormatListBulletedRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import { ChatProps } from "../../../../types";
+import axios from "axios";
 
 export type MessageInputProps = {
+  selectedChat: ChatProps;
   textAreaValue: string;
   setTextAreaValue: (value: string) => void;
   onSubmit: () => void;
 };
 
 function MessageInput({
+  selectedChat,
   textAreaValue,
   setTextAreaValue,
-  onSubmit,
 }: MessageInputProps) {
   const textAreaRef = React.useRef<HTMLDivElement>(null);
-  const handleClick = () => {
-    if (textAreaValue.trim() !== "") {
-      onSubmit();
-      setTextAreaValue("");
+
+  const { backend, token, refresher } = React.useContext(AuthContext);
+  const currentUser = Cookies.get("id");
+
+  console.log("ddd", selectedChat);
+  const rev = selectedChat.sender.filter((user) => user.id !== currentUser)[0]
+    .id;
+  console.log("rev", rev);
+
+  const handleSubmit = async () => {
+    try {
+      if (textAreaValue.trim() !== "") {
+        setTextAreaValue("");
+      }
+      const response = await axios.post(
+        `${backend}sendchat`,
+        {
+          sender: currentUser,
+          receiver: rev,
+          message: textAreaValue,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${token}`,
+          },
+        }
+      );
+      if (response.data.status_code === 201) {
+        refresher();
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
+
   return (
     <Box sx={{ px: 2, pb: 3 }}>
       <FormControl>
@@ -74,7 +108,7 @@ function MessageInput({
                 color="success"
                 sx={{ alignSelf: "center", borderRadius: "sm" }}
                 endDecorator={<SendRoundedIcon />}
-                onClick={handleClick}
+                onClick={handleSubmit}
               >
                 Send
               </Button>
@@ -82,7 +116,7 @@ function MessageInput({
           }
           onKeyDown={(event) => {
             if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
-              handleClick();
+              handleSubmit();
             }
           }}
           sx={{
