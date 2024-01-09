@@ -73,13 +73,7 @@ export default function ChatsPane({ user, chats, setSelectedChat, selectedChatId
 						Messages
 					</Typography>
 
-					<IconButton
-						variant="plain"
-						aria-label="edit"
-						color="neutral"
-						size="sm"
-						sx={{ display: { xs: "none", sm: "unset" } }}
-					>
+					<IconButton variant="plain" aria-label="edit" color="neutral" size="sm" sx={{ display: { xs: "flex" } }}>
 						<EditNoteRoundedIcon sx={{ color: "white" }} onClick={() => setOpen(true)} />
 					</IconButton>
 
@@ -93,7 +87,7 @@ export default function ChatsPane({ user, chats, setSelectedChat, selectedChatId
 						}}
 						sx={{ display: { sm: "none" } }}
 					>
-						<CloseRoundedIcon />
+						<CloseRoundedIcon sx={{ color: "white" }} />
 					</IconButton>
 				</Stack>
 				<Box sx={{ px: 2, pb: 1.5, backgroundColor: "success.headerBg" }}>

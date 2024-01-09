@@ -36,7 +36,7 @@ export default function MessagesPaneHeader({ sender }: MessagesPaneHeaderProps) 
 					}}
 					onClick={() => toggleMessagesPane()}
 				>
-					<ArrowBackIosNewRoundedIcon />
+					<ArrowBackIosNewRoundedIcon sx={{ color: "white" }} />
 				</IconButton>
 				<Avatar color="success" size="lg" src={sender.avatar} />
 				<div>
