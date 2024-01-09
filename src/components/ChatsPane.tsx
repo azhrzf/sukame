@@ -14,14 +14,14 @@ import {
 	ModalClose,
 	ModalDialog,
 } from "@mui/joy";
-// import { Chip } from "@mui/joy";
 import List from "@mui/joy/List";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import ChatListItem from "./ChatListItem";
 import { ChatProps, UserProps } from "../types";
-import { toggleMessagesPane } from "../utils";
+import { toggleMessagesPane, toggleSidebar } from "../utils";
 import { useState } from "react";
 
 type ChatsPaneProps = {
@@ -46,22 +46,29 @@ export default function ChatsPane({ user, chats, setSelectedChat, selectedChatId
 					overflowY: "auto",
 				}}
 			>
-				<Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between" p={2} pb={1.5}>
+				<Stack
+					sx={{ backgroundColor: "success.headerBg" }}
+					direction="row"
+					spacing={1}
+					alignItems="center"
+					justifyContent="space-between"
+					p={2}
+					pb={1.5}
+				>
+					<IconButton
+						onClick={() => toggleSidebar()}
+						variant="outlined"
+						color="neutral"
+						size="sm"
+						sx={{ display: { xs: "none", sm: "flex" } }}
+					>
+						<MenuRoundedIcon sx={{ color: "white" }} />
+					</IconButton>
 					<Typography
 						fontSize={{ xs: "md", md: "lg" }}
 						component="h1"
 						fontWeight="lg"
-						// endDecorator={
-						//     <Chip
-						//         variant="soft"
-						//         color="primary"
-						//         size="md"
-						//         slotProps={{ root: { component: 'span' } }}
-						//     >
-						//         4
-						//     </Chip>
-						// }
-						sx={{ mr: "auto" }}
+						sx={{ mr: "auto", color: "white" }}
 					>
 						Messages
 					</Typography>
@@ -73,7 +80,7 @@ export default function ChatsPane({ user, chats, setSelectedChat, selectedChatId
 						size="sm"
 						sx={{ display: { xs: "none", sm: "unset" } }}
 					>
-						<EditNoteRoundedIcon onClick={() => setOpen(true)} />
+						<EditNoteRoundedIcon sx={{ color: "white" }} onClick={() => setOpen(true)} />
 					</IconButton>
 
 					<IconButton
@@ -89,7 +96,7 @@ export default function ChatsPane({ user, chats, setSelectedChat, selectedChatId
 						<CloseRoundedIcon />
 					</IconButton>
 				</Stack>
-				<Box sx={{ px: 2, pb: 1.5 }}>
+				<Box sx={{ px: 2, pb: 1.5, backgroundColor: "success.headerBg" }}>
 					<Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" aria-label="Search" />
 				</Box>
 				<List

@@ -68,7 +68,7 @@ export default function ChatBubble({
 							borderRadius: "lg",
 							borderTopRightRadius: isSent ? 0 : "lg",
 							borderTopLeftRadius: isSent ? "lg" : 0,
-							backgroundColor: isSent ? "var(--joy-palette-success-500, #1F7A1F)" : "background.body",
+							backgroundColor: isSent ? "var(--joy-palette-success-500, #1F7A1F)" : "success.softBg",
 						}}
 					>
 						<Typography
@@ -90,14 +90,8 @@ export default function ChatBubble({
 								top: "50%",
 								p: 1.5,
 								...(isSent
-									? {
-											left: 0,
-											transform: "translate(-100%, -50%)",
-									  }
-									: {
-											right: 0,
-											transform: "translate(100%, -50%)",
-									  }),
+									? { left: 0, transform: "translate(-100%, -50%)" }
+									: { right: 0, transform: "translate(100%, -50%)" }),
 							}}
 						>
 							<IconButton

@@ -5,12 +5,10 @@ import ListItem from "@mui/joy/ListItem";
 import ListItemButton, { ListItemButtonProps } from "@mui/joy/ListItemButton";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
-// import CircleIcon from "@mui/icons-material/Circle";
 import AvatarWithStatus from "./AvatarWithStatus";
 import { ChatProps, MessageProps, UserProps } from "../types";
 import { toggleMessagesPane } from "../utils";
 import { getSender } from "../data";
-// import { Chat, Message, User } from "./context";
 
 type ChatListItemProps = ListItemButtonProps & {
 	id: string;
@@ -41,7 +39,7 @@ export default function ChatListItem({
 						setSelectedChat({ id, sender, messages });
 					}}
 					selected={selected}
-					color="neutral"
+					color="success"
 					sx={{
 						flexDirection: "column",
 						alignItems: "initial",
@@ -60,7 +58,6 @@ export default function ChatListItem({
 								textAlign: "right",
 							}}
 						>
-							{/* {messages[0].unread && <CircleIcon sx={{ fontSize: 12 }} color="primary" />} */}
 							<Typography level="body-xs" display={{ xs: "none", md: "block" }} noWrap>
 								5 mins ago
 							</Typography>

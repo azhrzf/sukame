@@ -5,11 +5,11 @@ import FormControl from "@mui/joy/FormControl";
 import Textarea from "@mui/joy/Textarea";
 import { IconButton, Stack } from "@mui/joy";
 
-import FormatBoldRoundedIcon from "@mui/icons-material/FormatBoldRounded";
-import FormatItalicRoundedIcon from "@mui/icons-material/FormatItalicRounded";
-import StrikethroughSRoundedIcon from "@mui/icons-material/StrikethroughSRounded";
-import FormatListBulletedRoundedIcon from "@mui/icons-material/FormatListBulletedRounded";
+import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import AddIcon from "@mui/icons-material/Add";
 
 export type MessageInputProps = {
 	textAreaValue: string;
@@ -29,7 +29,7 @@ export default function MessageInput({ textAreaValue, setTextAreaValue, onSubmit
 		<Box sx={{ px: 2, pb: 3 }}>
 			<FormControl>
 				<Textarea
-					placeholder="Type something here…"
+					placeholder="Enter message.."
 					aria-label="Message"
 					ref={textAreaRef}
 					onChange={(e) => {
@@ -53,16 +53,16 @@ export default function MessageInput({ textAreaValue, setTextAreaValue, onSubmit
 						>
 							<div>
 								<IconButton size="sm" variant="plain" color="neutral">
-									<FormatBoldRoundedIcon />
+									<AddIcon />
 								</IconButton>
 								<IconButton size="sm" variant="plain" color="neutral">
-									<FormatItalicRoundedIcon />
+									<InsertPhotoIcon />
 								</IconButton>
 								<IconButton size="sm" variant="plain" color="neutral">
-									<StrikethroughSRoundedIcon />
+									<AttachFileIcon />
 								</IconButton>
 								<IconButton size="sm" variant="plain" color="neutral">
-									<FormatListBulletedRoundedIcon />
+									<KeyboardVoiceIcon />
 								</IconButton>
 							</div>
 							<Button

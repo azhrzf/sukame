@@ -3,7 +3,6 @@ import Sheet from "@mui/joy/Sheet";
 import MessagesPane from "./MessagesPane";
 import ChatsPane from "./ChatsPane";
 import { useEffect } from "react";
-// import { useChatContext } from "./context";
 import { ChatProps, MessageProps, UserProps } from "../types";
 import { getUserByUsername } from "../data";
 
@@ -14,7 +13,6 @@ type MyMessagesProps = {
 };
 
 export default function MyProfile({ user, initChats, setInitChats }: MyMessagesProps) {
-	// const { chats, selectedChat, setSelectedChat } = useChatContext();
 	const [chats, setChats] = React.useState<ChatProps[]>(initChats);
 	const [selectedChat, setSelectedChat] = React.useState<ChatProps>(chats[0]);
 
@@ -32,12 +30,11 @@ export default function MyProfile({ user, initChats, setInitChats }: MyMessagesP
 				updatedChats[chatIndex].messages.push(currentMessage);
 				return updatedChats;
 			});
-			//console.log(chats);
 		}
 	};
 
 	const handleNewChat = (targetUser: string) => {
-		let target = getUserByUsername(targetUser);
+		const target = getUserByUsername(targetUser);
 		if (target !== undefined) {
 			const newId = initChats.length + 1;
 			const newIdString = newId.toString();
@@ -49,8 +46,6 @@ export default function MyProfile({ user, initChats, setInitChats }: MyMessagesP
 			setInitChats((prevChats) => {
 				return [...prevChats, chat];
 			});
-			// let newChatIndex = chats.findIndex((c) => c.id === newIdString);
-			// setSelectedChat(chats[8]);
 		}
 	};
 
