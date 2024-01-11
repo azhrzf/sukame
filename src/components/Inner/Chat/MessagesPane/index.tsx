@@ -52,7 +52,7 @@ function MessagesPane({
         height: { xs: "calc(100dvh - var(--Header-height))", lg: "100dvh" },
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "background.level1",
+        backgroundColor: "background.body",
       }}
     >
       <MessagesPaneHeader sender={getSender(user, selectedChat.sender)} />

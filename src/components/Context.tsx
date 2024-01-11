@@ -22,9 +22,8 @@ const useChats = (initial: ChatProps[] = []) => {
 const ChatContext = createContext<ReturnType<typeof useChats> | null>(null);
 
 function useChatContext() {
-  const { refresh } = useContext(AuthContext);
   const context = useContext(ChatContext);
-  useEffect(() => {}, [refresh]);
+  useEffect(() => {});
   if (!context) {
     throw new Error("useChatContext must be used within a ChatContextProvider");
   }

@@ -41,8 +41,8 @@ function App() {
   };
 
   const refresher = () => {
-    console.log("refreshing")
-    setRefresh(prevState => !prevState);
+    console.log("refreshing");
+    setRefresh((prevState) => !prevState);
   };
 
   return (

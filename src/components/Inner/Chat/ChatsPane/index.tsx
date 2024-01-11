@@ -14,14 +14,14 @@ import {
   ModalClose,
   ModalDialog,
 } from "@mui/joy";
-// import { Chip } from "@mui/joy";
 import List from "@mui/joy/List";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import ChatListItem from "./ChatListItem";
 import { ChatProps, UserProps } from "../../../../types";
-import { toggleMessagesPane } from "../../../../utils";
+import { toggleMessagesPane, toggleSidebar } from "../../../../utils";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { useState } from "react";
 
 type ChatsPaneProps = {
@@ -53,6 +53,7 @@ function ChatsPane({
         }}
       >
         <Stack
+          sx={{ backgroundColor: "success.headerBg" }}
           direction="row"
           spacing={1}
           alignItems="center"
@@ -60,21 +61,20 @@ function ChatsPane({
           p={2}
           pb={1.5}
         >
+          <IconButton
+            onClick={() => toggleSidebar()}
+            variant="outlined"
+            color="neutral"
+            size="sm"
+            sx={{ display: { xs: "none", sm: "flex" } }}
+          >
+            <MenuRoundedIcon sx={{ color: "white" }} />
+          </IconButton>
           <Typography
             fontSize={{ xs: "md", md: "lg" }}
             component="h1"
             fontWeight="lg"
-            // endDecorator={
-            //     <Chip
-            //         variant="soft"
-            //         color="primary"
-            //         size="md"
-            //         slotProps={{ root: { component: 'span' } }}
-            //     >
-            //         4
-            //     </Chip>
-            // }
-            sx={{ mr: "auto" }}
+            sx={{ mr: "auto", color: "white" }}
           >
             Messages
           </Typography>
@@ -84,9 +84,12 @@ function ChatsPane({
             aria-label="edit"
             color="neutral"
             size="sm"
-            sx={{ display: { xs: "none", sm: "unset" } }}
+            sx={{ display: { xs: "flex" } }}
           >
-            <EditNoteRoundedIcon onClick={() => setOpen(true)} />
+            <EditNoteRoundedIcon
+              sx={{ color: "white" }}
+              onClick={() => setOpen(true)}
+            />
           </IconButton>
 
           <IconButton
@@ -99,10 +102,10 @@ function ChatsPane({
             }}
             sx={{ display: { sm: "none" } }}
           >
-            <CloseRoundedIcon />
+            <CloseRoundedIcon sx={{ color: "white" }} />
           </IconButton>
         </Stack>
-        <Box sx={{ px: 2, pb: 1.5 }}>
+        <Box sx={{ px: 2, pb: 1.5, backgroundColor: "success.headerBg" }}>
           <Input
             size="sm"
             startDecorator={<SearchRoundedIcon />}

@@ -5,12 +5,10 @@ import ListItem from "@mui/joy/ListItem";
 import ListItemButton, { ListItemButtonProps } from "@mui/joy/ListItemButton";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
-// import CircleIcon from "@mui/icons-material/Circle";
 import AvatarWithStatus from "../MessagesPane/AvatarWithStatus";
 import { ChatProps, MessageProps, UserProps } from "../../../../types";
 import { toggleMessagesPane } from "../../../../utils";
 import { getSender } from "../../../../data";
-// import { Chat, Message, User } from "./context";
 
 type ChatListItemProps = ListItemButtonProps & {
   id: string;
@@ -41,7 +39,7 @@ function ChatListItem({
             setSelectedChat({ id, sender, messages });
           }}
           selected={selected}
-          color="neutral"
+          color="success"
           sx={{
             flexDirection: "column",
             alignItems: "initial",

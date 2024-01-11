@@ -21,6 +21,7 @@ function Header() {
         borderBottom: "1px solid",
         borderColor: "background.level1",
         boxShadow: "sm",
+        backgroundColor: "success.solidActiveBg",
       }}
     >
       <GlobalStyles
@@ -39,7 +40,7 @@ function Header() {
         color="neutral"
         size="sm"
       >
-        <MenuRoundedIcon />
+        <MenuRoundedIcon sx={{ color: "white" }} />
       </IconButton>
     </Sheet>
   );

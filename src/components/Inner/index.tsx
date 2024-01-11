@@ -10,22 +10,9 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { ChatProps, UserProps, MessageProps } from "../../types";
 import { AuthContext } from "../../App";
+import { theme } from "../../Theme";
 
 function JoyMessagesTemplate() {
-  //   const [getChats, setGetChats] = useState<ChatProps[]>([]);
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       try {
-  //         const response = await axios.get("https://example.com/chats");
-  //         setGetChats(response.data);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
-
-  //     fetchData();
-  //   }, []);
-
   const backend = Cookies.get("backend");
   const token = Cookies.get("token");
 
@@ -37,9 +24,7 @@ function JoyMessagesTemplate() {
     dateTime: string;
   }
 
-  const [thisUser, setThisUser] = useState({});
   const [users, setUsers] = useState<UserProps[]>([]);
-  const [conversations, setConversations] = useState<ChatProps[]>([]);
   const [currentUser, setCurrentUser] = useState<UserProps | null>(null);
   const [initChats, setInitChats] = useState<ChatProps[]>([]);
   const { refresh } = useContext(AuthContext);
@@ -54,7 +39,6 @@ function JoyMessagesTemplate() {
         });
         if (response.data.status_code === 200) {
           const { id, conversations } = response.data.data;
-          setThisUser({ id, name: id, username: id, avatar: "", online: true });
           const usedUsers = conversations.filter(
             (conversation: Conversation) => {
               return conversation.sender === id || conversation.receiver === id;
@@ -118,8 +102,6 @@ function JoyMessagesTemplate() {
             .filter(Boolean) as ChatProps[]; // remove undefined values from conversations
 
           setUsers(mappedUsers);
-          setConversations(filteredConversations);
-
           setCurrentUser(mappedUsers[0]); // set currentUser after users state is set
           setInitChats(filteredConversations); // set initChats after conversations state is set
         }
@@ -149,7 +131,7 @@ function JoyMessagesTemplate() {
   };
 
   return (
-    <CssVarsProvider disableTransitionOnChange>
+    <CssVarsProvider theme={theme} disableTransitionOnChange>
       <CssBaseline />
       <ChatContextProvider>
         <Box sx={{ display: "flex", minHeight: "100dvh" }}>

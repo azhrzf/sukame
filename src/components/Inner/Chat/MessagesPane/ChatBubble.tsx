@@ -77,7 +77,7 @@ function ChatBubble({
               borderTopLeftRadius: isSent ? "lg" : 0,
               backgroundColor: isSent
                 ? "var(--joy-palette-success-500, #1F7A1F)"
-                : "background.body",
+                : "success.softBg",
             }}
           >
             <Typography
@@ -101,14 +101,8 @@ function ChatBubble({
                 top: "50%",
                 p: 1.5,
                 ...(isSent
-                  ? {
-                      left: 0,
-                      transform: "translate(-100%, -50%)",
-                    }
-                  : {
-                      right: 0,
-                      transform: "translate(100%, -50%)",
-                    }),
+                  ? { left: 0, transform: "translate(-100%, -50%)" }
+                  : { right: 0, transform: "translate(100%, -50%)" }),
               }}
             >
               <IconButton

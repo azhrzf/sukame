@@ -3,7 +3,6 @@ import Sheet from "@mui/joy/Sheet";
 import MessagesPane from "./MessagesPane";
 import ChatsPane from "./ChatsPane";
 import { useEffect, useContext } from "react";
-// import { useChatContext } from "./context";
 import { ChatProps, MessageProps, UserProps } from "../../../types";
 import { getUserByUsername } from "../../../data";
 import { AuthContext } from "../../../App";
@@ -15,7 +14,6 @@ type MyMessagesProps = {
 };
 
 function MyProfile({ user, initChats, setInitChats }: MyMessagesProps) {
-  // const { chats, selectedChat, setSelectedChat } = useChatContext();
   const [chats, setChats] = React.useState<ChatProps[]>(initChats);
   const [selectedChat, setSelectedChat] = React.useState<ChatProps>(chats[0]);
   const { refresh } = useContext(AuthContext);

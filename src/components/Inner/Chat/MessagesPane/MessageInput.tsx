@@ -6,13 +6,13 @@ import Textarea from "@mui/joy/Textarea";
 import { IconButton, Stack } from "@mui/joy";
 import Cookies from "js-cookie";
 import { AuthContext } from "../../../../App";
-import FormatBoldRoundedIcon from "@mui/icons-material/FormatBoldRounded";
-import FormatItalicRoundedIcon from "@mui/icons-material/FormatItalicRounded";
-import StrikethroughSRoundedIcon from "@mui/icons-material/StrikethroughSRounded";
-import FormatListBulletedRoundedIcon from "@mui/icons-material/FormatListBulletedRounded";
+import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { ChatProps } from "../../../../types";
 import axios from "axios";
+import AddIcon from "@mui/icons-material/Add";
 
 export type MessageInputProps = {
   selectedChat: ChatProps;
@@ -91,16 +91,16 @@ function MessageInput({
             >
               <div>
                 <IconButton size="sm" variant="plain" color="neutral">
-                  <FormatBoldRoundedIcon />
+                  <AddIcon />
                 </IconButton>
                 <IconButton size="sm" variant="plain" color="neutral">
-                  <FormatItalicRoundedIcon />
+                  <InsertPhotoIcon />
                 </IconButton>
                 <IconButton size="sm" variant="plain" color="neutral">
-                  <StrikethroughSRoundedIcon />
+                  <AttachFileIcon />
                 </IconButton>
                 <IconButton size="sm" variant="plain" color="neutral">
-                  <FormatListBulletedRoundedIcon />
+                  <KeyboardVoiceIcon />
                 </IconButton>
               </div>
               <Button
