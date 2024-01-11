@@ -1,62 +1,70 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
-import JoySignInSideTemplate from "./components/Login";
-import JoySignInSideTemplateRegister from "./components/Register";
-import JoyMessagesTemplate from "./components/Inner";
-import Cookies from "js-cookie";
-import { createContext, useState, useContext } from "react";
+import { CssVarsProvider } from "@mui/joy/styles";
+import CssBaseline from "@mui/joy/CssBaseline";
+import Box from "@mui/joy/Box";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import MyMessages from "./components/MyMessages";
+import ChatContextProvider from "./components/Context";
+import { getDummyChats, users } from "./data";
+import {
+	useState,
+	// useEffect
+} from "react";
+import { ChatProps, UserProps } from "./types";
+// import axios from "axios";
 
-const AuthContext = createContext<{
-  backend: string | undefined;
-  token: string | undefined;
-  refresh: boolean;
-  refresher: () => void; // add this line
-  changeAuth: (backend: string, token: string) => void;
-}>({
-  backend: undefined,
-  token: undefined,
-  refresh: false,
-  refresher: () => {},
-  changeAuth: () => {},
-});
+export default function JoyMessagesTemplate() {
+//   const [getChats, setGetChats] = useState<ChatProps[]>([]);
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await axios.get("https://example.com/chats");
+//         setGetChats(response.data);
+//       } catch (error) {
+//         console.error(error);
+//       }
+//     };
 
-const Home = () => {
-  const { backend, token } = useContext(AuthContext);
-  if (backend && token) {
-    return <JoyMessagesTemplate />;
-  } else {
-    return <JoySignInSideTemplate />;
-  }
-};
+//     fetchData();
+//   }, []);
 
-function App() {
-  const [backend, setBackend] = useState<string | undefined>(
-    Cookies.get("backend")
-  );
-  const [token, setToken] = useState<string | undefined>(Cookies.get("token"));
-  const [refresh, setRefresh] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState(users[7]);
+  const [initChats, setInitChats] = useState(getDummyChats());
 
-  const changeAuth = (newBackend: string, newToken: string) => {
-    setBackend(newBackend);
-    setToken(newToken);
+  const handleChangeUser = (username: string) => {
+    const userIndex = users.findIndex((user) => user.username === username);
+    if (userIndex !== -1) {
+      setCurrentUser(users[userIndex]);
+    }
   };
 
-  const refresher = () => {
-    console.log("refreshing");
-    setRefresh((prevState) => !prevState);
+  const getChatsFromUser = (
+    chats: ChatProps[],
+    user: UserProps
+  ): ChatProps[] => {
+    return chats.filter((chat) => {
+      const isFromUser = chat.sender.some((sender) => sender.id === user.id);
+      return isFromUser;
+    });
   };
 
   return (
-    <HashRouter>
-      <AuthContext.Provider
-        value={{ backend, token, refresh, refresher, changeAuth }}
-      >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<JoySignInSideTemplate />} />
-          <Route path="/register" element={<JoySignInSideTemplateRegister />} />
-        </Routes>
-      </AuthContext.Provider>
-    </HashRouter>
+    <CssVarsProvider disableTransitionOnChange>
+      <CssBaseline />
+      <ChatContextProvider>
+        <Box sx={{ display: "flex", minHeight: "100dvh" }}>
+          <Sidebar user={currentUser} handleChangeUser={handleChangeUser} />
+          <Header />
+          <Box component="main" className="MainContent" sx={{ flex: 1 }}>
+            <MyMessages
+              user={currentUser}
+              initChats={getChatsFromUser(initChats, currentUser)}
+              setInitChats={setInitChats}
+            />
+          </Box>
+        </Box>
+      </ChatContextProvider>
+    </CssVarsProvider>
   );
 }
 
