@@ -14,5 +14,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-          local-dir: ./build/
+          local-dir: ./dist/
           server-dir: portfolio.azharfauzi.my.id/sukame-web/
